@@ -36,3 +36,7 @@ PrepareClinicalXMLData <- function(query.result, clinical.info.types) {
   
   return(clinical.dfs)
 }
+
+Prepare <- function(query.result) {
+  GDCprepare(query.result, summarizedExperiment = FALSE)
+}
