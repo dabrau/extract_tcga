@@ -1,9 +1,9 @@
 library(TCGAbiolinks)
 library(tidyverse)
 
-QueryData <- function(proj, category, workflow) {
+QueryData <- function(proj, category, workflow, data.type) {
   result <- tryCatch({
-    query <- GDCquery(project = proj, data.category = category, workflow.type = workflow)
+    query <- GDCquery(project = proj, data.category = category, workflow.type = workflow, data.type = data.type)
     GDCdownload(query)
     return(query)
   }, error = function(e) {
