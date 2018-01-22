@@ -13,6 +13,14 @@ QueryData <- function(proj, category, workflow, data.type) {
   return(result)
 }
 
+QueryMutationData <- function(proj, pipeline) {
+  projs <- getGDCprojects()
+  rownames(projs) <- projs$id
+  tumor <- projs[proj, "tumor"]
+  
+  GDCquery_Maf(tumor, pipelines = pipeline)
+}
+
 ProjectIds <- function() {
   getGDCprojects()$project_id %>%
     str_subset("TCGA")
