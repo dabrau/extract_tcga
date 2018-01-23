@@ -14,6 +14,8 @@ QueryData <- function(proj, category, workflow, data.type) {
 }
 
 QueryMutationData <- function(proj, pipeline) {
+  # Creates a dataframe from the somatic mutation query results for the pipeline
+  
   projs <- getGDCprojects()
   rownames(projs) <- projs$id
   tumor <- projs[proj, "tumor"]
@@ -26,23 +28,17 @@ ProjectIds <- function() {
     str_subset("TCGA")
 }
 
-PrepareClinicalXMLData <- function(query.result, clinical.info.types) {
-  # Creates dataframes from the clinical and biospecimen XML query results
+PrepareClinicalXMLData <- function(query.result, clinical.info.type) {
+  # Create a dataframe from the clinical and biospecimen XML query results
   #
   # Args:
   #   query.results: the output of QueryData for categories of "Clinical" or "Biospecimen"
-  #   clinical.info.types: list of characters. clinical.info in the XML to be extracted into dataframes;
+  #   clinical.info.type: clinical.info in the XML to be extracted into dataframes;
   #     relation between one patient and other clinical information is 1:n
   # Returns:
-  #   a named list of dataframes by clinical info types
+  #   a dataframe of the clinical.info
   
-  clinical.dfs <- clinical.info.types %>%
-    map(function(info.type) {
-      GDCprepare_clinic(query.result, clinical.info = info.type)
-    })
-  names(clinical.dfs) <- clinical.info.types
-  
-  return(clinical.dfs)
+  GDCprepare_clinic(query.result, clinical.info = clinical.info.type)
 }
 
 Prepare <- function(query.result) {
